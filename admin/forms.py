@@ -51,6 +51,7 @@ class BlogForm(FlaskForm):
 class UserInfoForm(FlaskForm):
     id = HiddenField()
     username = StringField('Username', validators=[InputRequired(), no_spaces], render_kw={'placeholder': 'Username'})
+    logo_img = FileField('Photo', validators=[FileAllowed(['jpg', 'png', 'heic', 'heif'], 'Images only!')])
     email = EmailField('Email', validators=[InputRequired(), no_spaces], render_kw={'placeholder': 'Email'})
     security_question = StringField('Security Question', validators=[InputRequired()], render_kw={'placeholder': 'Security Question'})
     answer = StringField('Answer', validators=[InputRequired()], render_kw={'placeholder': 'Answer'})

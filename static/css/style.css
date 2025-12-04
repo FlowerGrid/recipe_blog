@@ -3,7 +3,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     padding: 0;
     margin: 0;
-    color: #38280f;
+    color: #413324;
 }
 
 .bold-text {
@@ -20,7 +20,8 @@ body {
 .header,
 .footer {
     padding: 1rem;
-    background-color: #eeb230;
+    /* background-color: #eeb230; */
+    background-color: #48615b;
     color: #fbf3d9;
 }
 
@@ -29,7 +30,7 @@ body {
     /* min-height: 25%; */
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
-    justify-items: center;
+    justify-items: space-between;
     align-items: center;
     padding: .7rem 4.5rem;
 }
@@ -63,7 +64,7 @@ body {
 }
 
 .welcome-message-content h2 {
-    font-size: 22pt;
+    font-size: 28pt;
 }
 
 .logo {
@@ -96,7 +97,7 @@ nav ul {
 .nav-links {
     display: flex;
     justify-content: end;
-    background-color: #eeb230;
+    /* background-color: #eeb230; */
 }
 
 .nav-link {
@@ -104,6 +105,7 @@ nav ul {
     display: inline-block;
     transition: transform .2s ease, color .2s ease;
     font-size: 13pt;
+    color: #fbf3d9;
 }
 
 .nav-link:visited {
@@ -111,7 +113,7 @@ nav ul {
 }
 
 .nav-link:hover {
-    color: #38280f;
+    color: #413324;
     transform: scale(1.1);
 }
 
@@ -135,35 +137,38 @@ nav li {
     font-size: 14pt;
     font-weight: bold;
     /* background-color: #F1F3F4; */
-    background-color: #eeb230;
+    /* background-color: #eeb230; */
+    background-color: #48615b;
+    /* background-color: #61474D; */
     color: #fbf3d9;
     text-shadow:
-        1px 0 #38280f,
-        -1px 0 #38280f,
-        0 1px #38280f,
-        0 -1px #38280f,
-        1px 1px #38280f,
-        -1px -1px #38280f,
-        1px -1px #38280f,
-        -1px 1px #38280f;
+        1px 0 #413324,
+        -1px 0 #413324,
+        0 1px #413324,
+        0 -1px #413324,
+        1px 1px #413324,
+        -1px -1px #413324,
+        1px -1px #413324,
+        -1px 1px #413324;
     text-decoration: none;
     border: 6px solid #fbf3d9;
     border-radius: 30px;
     box-sizing: border-box;
     padding: .75rem 1rem;
-    width: 200px;
+    min-width: 200px;
     margin: 24px 0;
     text-align: center;
     align-self: flex-end;
     cursor: pointer;
-    box-shadow: 0 0 0 1px #38280f,
-    inset 0 0 0 1px #38280f,
+    box-shadow: 0 0 0 1px #413324,
+    inset 0 0 0 1px #413324,
     0 4px 6px rgba(0, 0, 0, 0.3);
 
 }
 
 .button-styles:active {
-    background-color: #df9f13;
+    /* background-color: #df9f13; */
+    background-color: #61474D;
     box-shadow: 
         3px rgba(0, 0, 0, 0.4),
         inset 0 2px 4px rgba(0, 0, 0, 0.3);

@@ -66,7 +66,7 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
                 if os.path.exists(old_image_path):
                     os.remove(old_image_path)
             # Save new image and update image url
-            model_obj.image_url = image_helper(image_file, slug)
+            model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
 
         tags_handler(model_obj, tags_list, rel_attr_name)
 
@@ -88,7 +88,7 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
             tags_handler(model_obj, tags_list, rel_attr_name)
 
         if image_file and image_file.filename != '':
-            model_obj.image_url = image_helper(image_file, slug)
+            model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
 
 
         db_session.add(model_obj)
@@ -126,16 +126,16 @@ def tags_handler(model_obj, tags_list, relation):
     setattr(model_obj, relation, final_tags_list)
 
 
-def image_helper(image_file, slug):
+def image_helper(destination_dir, image_file, slug):
     ext = os.path.splitext(secure_filename(image_file.filename))[1].lower()
     filename = f'{slug}{ext}'
-    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    file_path = os.path.join(destination_dir, filename)
     image_file.save(os.path.join('static', file_path))
 
     if ext == '.heic':
         print('\n\n===found heic===\n\n')
         png_file = f'{slug}.png'
-        png_path = os.path.join(UPLOAD_FOLDER, png_file)
+        png_path = os.path.join(destination_dir, png_file)
         convert_heic_to_png(file_path, png_path)
         os.remove(os.path.join('static',file_path))
         file_path = png_path

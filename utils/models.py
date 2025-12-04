@@ -84,6 +84,7 @@ class User(Base):
     username = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
+    logo_img = Column(String, unique=True)
     security_question = Column(String, nullable=False)
     security_answer_hash = Column(String)
 
