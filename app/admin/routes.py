@@ -1,10 +1,9 @@
+from . import admin_bp
 from flask import Blueprint, render_template, request, session, redirect, url_for, render_template, abort, jsonify, flash
 from admin.forms import LoginForm, RecipeForm, UserInfoForm, UpdatePasswordForm, BlogForm
 from functools import wraps
 import db_helpers
 from models import Recipe, BlogPost
-
-admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static', static_url_path='/static')
 
 # CATEGORIES = db_helpers.get_all_categories()
 
