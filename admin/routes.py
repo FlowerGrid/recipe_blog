@@ -173,10 +173,12 @@ def new_blog_post():
 def edit_recipe(recipe_id):
     recipe = db_helpers.get_joined_recipe_from_db('id', recipe_id)
     form = RecipeForm(obj=recipe)
+    tags_list = [t.name for t in recipe.tags_in_recipe]
     # form.category.choices = [(cat.id, cat.name) for cat in CATEGORIES]
     data = {
         'page_name': 'Edit Recipe',
-        'img': recipe.image_url
+        'img': recipe.image_url,
+        'tags_list': tags_list
     }
     return (render_template('admin/add-recipe.html', data=data, form=form))
 
@@ -186,10 +188,12 @@ def edit_recipe(recipe_id):
 def edit_blog_post(blog_id):
     post = db_helpers.get_single_blog_post_by_id(blog_id)
     form = BlogForm(obj=post)
+    tags_list = [t.name for t in post.tags_in_blog_post]
     # form.category.choices = [(cat.id, cat.name) for cat in CATEGORIES]
     data = {
         'page_name': 'Edit Blog',
-        'img': post.image_url
+        'img': post.image_url,
+        'tags_list': tags_list
     }
     return (render_template('admin/blog-post.html', data=data, form=form))
 

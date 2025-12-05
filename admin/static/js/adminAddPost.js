@@ -2,10 +2,18 @@ const tagInput = document.querySelector('#tag-input');
 const tagDisplay = document.querySelector('.tags-display');
 const tagButton = document.querySelector('#tag-input-button');
 const formElement = document.querySelector('#add-post-form');
-console.log(formElement)
+const existingTags = window.existingTags || [];
 
 
 const tagSet = new Set();
+
+
+if (existingTags) {
+    for (let tag of existingTags) {
+        addTagToSet(tag);
+    }
+    renderTags()
+}
 
 
 formElement.addEventListener('submit', (event) =>{
@@ -27,14 +35,18 @@ tagInput.addEventListener('keydown', (event) =>{
 tagButton.addEventListener('click', () => {
     if (tagInput.value) {
         let tagText = tagInput.value;
-
-        tagText = normalizeTag(tagText)
-        tagSet.add(tagText);
-        renderTags()
-
+        addTagToSet(tagText);
         tagInput.value = null;
+        renderTags()
     }
 })
+
+
+function addTagToSet(tagText) {
+        tagText = normalizeTag(tagText)
+        tagSet.add(tagText);
+}
+
 
 function normalizeTag(tag) {
     return tag

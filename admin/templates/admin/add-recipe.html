@@ -18,13 +18,15 @@
         </div> --> #}
       </div>
 
+
+
       <!-- Tags -->
       <div class="tags-container">
+        <h4>Tags</h4>
         <div class="tag-input-container">
           <!-- <label for="tag-input">Enter a tag</label> -->
           <input type="text" name="tag-input" id="tag-input" maxlength="30" placeholder="Add a tag">
           <input type="button" id="tag-input-button" class="button-styles" value="Add Tag">
-          {{ form.tags(id="tags-hidden-field") }}
         </div>
         <ul class="tags-display">
         </ul>
@@ -34,7 +36,7 @@
         {{ form.photo.label }} {{ form.photo() }}    
         {% if data.img %}
         <div class="img-preview-container">
-          <img src="{{ url_for('static', filename=data.img) }}" alt="Pizza">
+          <img src="{{ url_for('static', filename=data.img) }}" alt="Image">
         </div>
         {% endif %}
       </div>
@@ -47,6 +49,12 @@
 
       {{ form.form_submit_btn(id="form-submit-btn") }}
   </form>
+
+  {% if data.tags_list %}
+    <script>
+      const existingTags = {{ data.tags_list | tojson }};
+    </script>
+  {% endif %}
 
   <!-- Load the CKEditor JS -->
   {{ ckeditor.load() }}

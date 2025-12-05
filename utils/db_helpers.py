@@ -171,9 +171,9 @@ def resize_and_compress(image_path):
 def get_joined_recipe_from_db(key, value):
     recipe = (
         db_session.query(Recipe)
-        # .options(
-        #     joinedload(Recipe.category)
-        # )
+        .options(
+            joinedload(Recipe.tags_in_recipe)
+        )
         .filter(getattr(Recipe, key) == value).first()
     )
 

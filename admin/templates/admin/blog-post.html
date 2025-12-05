@@ -20,7 +20,9 @@
       </div>
 
       <!-- Tags -->
+
       <div class="tags-container">
+        <h4>Tags</h4>
         <div class="tag-input-container">
           <!-- <label for="tag-input">Enter a tag</label> -->
           <input type="text" name="tag-input" id="tag-input" maxlength="30" placeholder="Add a tag">
@@ -44,6 +46,12 @@
 
       {{ form.form_submit_btn(id="form-submit-btn") }}
   </form>
+
+  {% if data.tags_list %}
+    <script>
+      const existingTags = {{ data.tags_list | tojson }};
+    </script>
+  {% endif %}
 
   <!-- Load the CKEditor JS -->
   {{ ckeditor.load() }}
