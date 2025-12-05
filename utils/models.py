@@ -91,6 +91,17 @@ class User(Base):
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+
+    def set_security_answer(self, answer):
+        normalized = answer.strip().casefold()
+        self.security_answer_hash = generate_password_hash(normalized)
+
+    
+    def check_security_answer(self, answer):
+        normalized = answer.strip.casefold()
+        return check_password_hash(self.security_answer_hash, normalized)
     

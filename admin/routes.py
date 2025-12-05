@@ -63,10 +63,8 @@ def logout():
 @login_required
 def admin_settings():
     user = db_helpers.get_user_info(session['user_id'])
-    security_answer = db_helpers.f_decryption(user.security_answer_hash)
     data = {
-        'page_name': 'Settings',
-        'answer': security_answer
+        'page_name': 'Settings'
     }
     return render_template('admin/settings.html', data=data, user=user)
 
@@ -75,8 +73,7 @@ def admin_settings():
 @login_required
 def update_user_info():
     user = db_helpers.get_user_info(session['user_id'])
-    info_form = UserInfoForm(obj=user,
-                             data={'answer': db_helpers.f_decryption(user.security_answer_hash)})
+    info_form = UserInfoForm(obj=user)
 
     data = {
         'page_name': 'Update Info'
@@ -84,6 +81,7 @@ def update_user_info():
 
     if info_form.validate_on_submit():
         db_helpers.update_user(info_form)
+        return redirect(url_for('admin.admin_settings'))
     
     return render_template(
         'admin/update-user-info.html',

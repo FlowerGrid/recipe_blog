@@ -1,6 +1,5 @@
 import bleach
 from bs4 import BeautifulSoup
-from cryptography.fernet import Fernet
 from flask import request, session, flash
 import html, json
 import os
@@ -266,20 +265,9 @@ def update_user(form):
     user.username = form.username.data.lower()
     user.email = form.email.data
     user.security_question = form.security_question.data.strip()
-    encrypted = f_encryption(form.answer.data.lower())
-    user.security_answer_hash = encrypted
+    user.set_security_answer(form.answer.data)
 
     db_session.commit()
-
-
-def f_encryption(s):
-    f = Fernet(os.getenv('FERNET_KEY').encode())
-    return f.encrypt(s.encode())
-
-
-def f_decryption(s):
-    f = Fernet(os.getenv('FERNET_KEY').encode())
-    return f.decrypt(s).decode()
 
 
 def change_pw(form):
