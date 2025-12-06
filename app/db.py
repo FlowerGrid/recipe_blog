@@ -2,10 +2,10 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from .models import Base
 
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 DB_PATH = os.path.join(BASE_DIR, 'recipe-db.sqlite3')
 DEFAULT_DATABASE_URL = f"sqlite:///{DB_PATH}"
 DATABASE_URL = os.environ.get('DATABASE_URL', DEFAULT_DATABASE_URL)

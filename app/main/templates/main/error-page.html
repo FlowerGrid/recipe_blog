@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 {% block content %}
 <div class="error-handling-message-container">
@@ -16,7 +16,7 @@
     {% endif %}
 
     <p class="return-home-message">
-      <a href="{{ url_for('index') }}">Return to Home page</a>
+      <a href="{{ url_for('main.index') }}">Return to Home page</a>
     </p>
   </div>
 </div>

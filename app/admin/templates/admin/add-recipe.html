@@ -18,8 +18,6 @@
         </div> --> #}
       </div>
 
-
-
       <!-- Tags -->
       <div class="tags-container">
         <h4>Tags</h4>
@@ -36,7 +34,7 @@
         {{ form.photo.label }} {{ form.photo() }}    
         {% if data.img %}
         <div class="img-preview-container">
-          <img src="{{ url_for('static', filename=data.img) }}" alt="Image">
+          <img src="{{ url_for('admin.static', filename=data.img) }}" alt="Image">
         </div>
         {% endif %}
       </div>

@@ -7,9 +7,9 @@ from PIL import Image
 import pillow_heif
 import re
 from sqlalchemy.orm import joinedload
-from db import db_session
+from .db import db_session
 from werkzeug.utils import secure_filename
-from models import Base, Recipe, User, BlogPost, Tag # Removed Category
+from .models import Base, Recipe, User, BlogPost, Tag # Removed Category
 
 
 UPLOAD_FOLDER = 'images/uploads'

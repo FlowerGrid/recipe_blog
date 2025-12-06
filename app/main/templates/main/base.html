@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('main.static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile-styles.css') }}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='images/pk_favicon.png')}}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ url_for('main.static', filename='images/pk_favicon.png')}}" type="image/x-icon">
   {% block links %}{% endblock%}
-  <script src="{{ url_for('static', filename='js/pizzaKing.js') }}" defer></script>
+  <script src="{{ url_for('main.static', filename='js/pizzaKing.js') }}" defer></script>
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -15,9 +15,9 @@
     <!-- Header -->
     <div class="header">
       <div class="heading-graphic">
-        <a href="{{ url_for('index') }}" class="heading-logo-link">
+        <a href="{{ url_for('main.index') }}" class="heading-logo-link">
           <div class="logo">
-            <img src="{{ url_for('static',  filename='images/pk_pics/user_logo.png') }}" alt="Flower Grid Cooking">
+            <img src="{{ url_for('main.static',  filename='images/pk_pics/user_logo.png') }}" alt="Flower Grid Cooking">
           </div>
         </a>
       </div>
@@ -31,11 +31,11 @@
             </div>
           </div>
           <ul class="nav-links">
-            <li><a href="{{ url_for('index') }}" class="nav-link">Home</a></li>
-            <!-- <li><a href="{{ url_for('do_calc')}}" class="nav-link">Dough Calculator</a></li> -->
-            <li><a href="{{ url_for('recipes')}}" class="nav-link">Recipes</a></li>
-            <li><a href="{{ url_for('blog')}}" class="nav-link">Blog</a></li>
-            <li><a href="{{ url_for('merch')}}" class="nav-link">Merch</a></li>
+            <li><a href="{{ url_for('main.index') }}" class="nav-link">Home</a></li>
+            {#<!-- <li><a href="{{ url_for('do_calc')}}" class="nav-link">Dough Calculator</a></li> -->#}
+            <li><a href="{{ url_for('main.recipes')}}" class="nav-link">Recipes</a></li>
+            <li><a href="{{ url_for('main.blog')}}" class="nav-link">Blog</a></li>
+            <li><a href="{{ url_for('main.merch')}}" class="nav-link">Merch</a></li>
             <li><a href="#" class="nav-link" target="_blank" rel="noopener noreferrer">Social</a></li>
           </ul>
         </nav>

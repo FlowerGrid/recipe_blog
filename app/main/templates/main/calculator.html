@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 {% block links %}
-<script src="{{ url_for('static', filename='js/doCalc.js') }}" defer></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dough-calc.css') }}">
+<script src="{{ url_for('main.static', filename='js/doCalc.js') }}" defer></script>
+<link rel="stylesheet" href="{{ url_for('main.static', filename='css/dough-calc.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -141,9 +141,9 @@
   
     <h3 class="signoff">I dub thee delicious! 🍕👑</h3>
   </div>
-  <a href="{{ url_for('recipes')}}" class="button-styles">Make a Pizza</a>
+  <a href="{{ url_for('main.recipes')}}" class="button-styles">Make a Pizza</a>
   <div class="img-container">
-    <img src="{{ url_for('static', filename='images/pk_pics/pk_animated.png') }}" alt="" class="img">
+    <img src="{{ url_for('main.static', filename='images/pk_pics/pk_animated.png') }}" alt="" class="img">
   </div>
   
 </div>
