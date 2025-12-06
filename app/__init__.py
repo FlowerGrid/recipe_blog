@@ -2,9 +2,10 @@
 App Package
 """
 from dotenv import load_dotenv
-from flask import Flask, current_app, url_for
+from flask import Flask, current_app, url_for, render_template
 from flask_ckeditor import CKEditor
 import os
+from werkzeug.exceptions import HTTPException
 
 load_dotenv()
 
@@ -34,6 +35,11 @@ def create_app():
     app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
     print("Registered blueprints:", app.blueprints)
+
+
+    @app.errorhandler(HTTPException)
+    def error_page(error):
+        return render_template('main/error-page.html', error=error), error.code
 
 
     @app.context_processor

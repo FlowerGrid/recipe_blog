@@ -2,7 +2,7 @@ from . import main_bp
 from flask import render_template, abort, redirect, url_for, jsonify, Blueprint
 from flask_ckeditor import CKEditor
 from app.db_helpers import get_joined_recipe_from_db, get_active_recipes, get_active_blog_posts, get_single_blog_post_by_slug # Removed - seed_categories, get_all_categories
-from werkzeug.exceptions import HTTPException
+
 
 @main_bp.route('/')
 def index():
@@ -10,11 +10,6 @@ def index():
     import os
     print("Looking for template in:", os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates', 'main/index.html')))
     return render_template('main/index.html')
-
-
-@main_bp.errorhandler(HTTPException)
-def error_page(error):
-    return render_template('main/error-page.html', error=error), error.code
 
 
 @main_bp.route('/merch-store')
