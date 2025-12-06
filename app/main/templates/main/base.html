@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile-styles.css') }}">
   <link rel="shortcut icon" href="{{ url_for('main.static', filename='images/pk_favicon.png')}}" type="image/x-icon">
   {% block links %}{% endblock%}
-  <script src="{{ url_for('main.static', filename='js/pizzaKing.js') }}" defer></script>
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -17,7 +16,7 @@
       <div class="heading-graphic">
         <a href="{{ url_for('main.index') }}" class="heading-logo-link">
           <div class="logo">
-            <img src="{{ url_for('main.static',  filename='images/pk_pics/user_logo.png') }}" alt="Flower Grid Cooking">
+            <img src="{{ logo_url }}" alt="Flower Grid Cooking">
           </div>
         </a>
       </div>

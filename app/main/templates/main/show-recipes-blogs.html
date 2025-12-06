@@ -18,7 +18,7 @@
           {% if object.image_url %}
           <img src="{{ url_for('static', filename=object.image_url) }}" alt="{{ object.title }}">
           {% else %}
-          <img src="{{ url_for('main.static', filename='images/pk_pics/pk_animated.png') }}" alt="{{ object.title }}">
+          <img src="{{ url_for('static', filename='images/pk_animated.png') }}" alt="{{ object.title }}">
           {% endif %}
         </div>
         <div class="object-blurb">

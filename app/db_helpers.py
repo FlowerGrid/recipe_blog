@@ -298,7 +298,10 @@ def update_user(form):
     user.security_question = form.security_question.data.strip()
     user.set_security_answer(form.answer.data)
 
-    image_file = form.photo.data
+    image_file = form.logo_img.data
+    print('===============')
+    print(image_file)
+    print('===============')
 
     model_cls_str = 'users'
     slug = 'user-logo'

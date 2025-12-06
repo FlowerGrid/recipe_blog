@@ -34,7 +34,7 @@
         {{ form.photo.label }} {{ form.photo() }}    
         {% if data.img %}
         <div class="img-preview-container">
-          <img src="{{ url_for('admin.static', filename=data.img) }}" alt="Image">
+          <img src="{{ url_for('static', filename=data.img) }}" alt="Image">
         </div>
         {% endif %}
       </div>

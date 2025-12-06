@@ -2,7 +2,7 @@
 App Package
 """
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, current_app, url_for
 from flask_ckeditor import CKEditor
 import os
 
@@ -31,9 +31,26 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['CKEDITOR_PKG_TYPE'] = 'basic'
     app.config['CKEDITOR_ENABLE_CODESNIPPET'] = False
-    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, '..', 'static', 'uploads')
     app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
     print("Registered blueprints:", app.blueprints)
 
+
+    @app.context_processor
+    def inject_logo_url():
+        user_logo_path = os.path.join(BASE_DIR, 'static', 'uploads', 'users', 'user-logo.png')
+
+        if os.path.exists(user_logo_path):
+            return {
+                'logo_url': url_for('static', filename='uploads/users/user-logo.png')
+            }
+        else:
+            return {
+                'logo_url': url_for('static', filename='images/default-logo.png')
+            }
+
+
     return app
+
+
+
