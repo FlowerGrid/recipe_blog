@@ -31,6 +31,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['CKEDITOR_PKG_TYPE'] = 'basic'
     app.config['CKEDITOR_ENABLE_CODESNIPPET'] = False
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, '..', 'static', 'uploads')
     app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
     print("Registered blueprints:", app.blueprints)

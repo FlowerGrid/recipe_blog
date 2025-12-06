@@ -1,6 +1,6 @@
 import bleach
 from bs4 import BeautifulSoup
-from flask import request, session, flash
+from flask import request, session, flash, current_app
 import html, json
 import os
 from PIL import Image
@@ -11,8 +11,8 @@ from .db import db_session
 from werkzeug.utils import secure_filename
 from .models import Base, Recipe, User, BlogPost, Tag # Removed Category
 
-
-UPLOAD_FOLDER = 'images/uploads'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.abspath(os.path.join(BASE_DIR, '..', 'static', 'uploads'))
 
 pillow_heif.register_heif_opener()
 
@@ -23,7 +23,7 @@ MAX_SIZE = 1024
 def gather_form_data_unified(model_cls, form, rel_attr_name):
 
     title = form.title.data.strip()
-    slug = slugify(title)
+    slug = secure_filename(slugify(title))
     # cat_id = form.category.data
     blurb = sanitize_html(form.blurb.data.strip())
 
@@ -58,14 +58,17 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
 
         model_obj.blurb_plaintext = blurb_plaintext
 
+        model_cls_str = model_cls.__tablename__ # String of table's name
+
         if image_file and image_file.filename != '':
             # delete the old image
-            if model_obj.image_url:
-                old_image_path = os.path.join('static', model_obj.image_url.lstrip('/'))
-                if os.path.exists(old_image_path):
-                    os.remove(old_image_path)
+            # if model_obj.image_url:
+            #     old_image_path = os.path.join(UPLOAD_FOLDER, model_obj.image_url.lstrip('/'))
+            #     if os.path.exists(old_image_path):
+            #         os.remove(old_image_path)
             # Save new image and update image url
-            model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
+            # model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
+            model_obj.image_url = image_helper2(model_cls_str, image_file, slug)
 
         tags_handler(model_obj, tags_list, rel_attr_name)
 
@@ -87,7 +90,8 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
             tags_handler(model_obj, tags_list, rel_attr_name)
 
         if image_file and image_file.filename != '':
-            model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
+            # model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
+            model_obj.image_url = image_helper2(model_cls_str, image_file, slug)
 
 
         db_session.add(model_obj)
@@ -125,18 +129,44 @@ def tags_handler(model_obj, tags_list, relation):
     setattr(model_obj, relation, final_tags_list)
 
 
-def image_helper(destination_dir, image_file, slug):
+def image_helper2(model_cls_str, image_file, slug):
+    try:
+        img = Image.open(image_file)
+        img.verify()
+
+        # Reset file pointer so Pillow can read the image again
+        image_file.seek(0)
+        with Image.open(image_file) as img:
+        # convert to png
+            img = img.convert('RGB')
+
+            img.thumbnail((MAX_SIZE, MAX_SIZE)) # MAX_SIZE = 1024
+
+            filename = os.path.join(model_cls_str, f'{slug}.png')
+
+            img.save(os.path.join(UPLOAD_FOLDER, filename), format='PNG', optimize=True)
+
+        return os.path.join('uploads', filename)
+        
+    except Exception:
+        print('Bad Image Upload')
+        return None
+
+
+def image_helper(model_cls, image_file, slug):
     filename = secure_filename(image_file.filename)
     ext = os.path.splitext(filename)[1].lower()
     filename = f'{slug}{ext}'
-    file_path = os.path.join(destination_dir, filename)
-    image_file.save(os.path.join('static', file_path))
+    file_path = os.path.join(UPLOAD_FOLDER, model_cls, filename)
+
+    # convert to png
+    image_file.save(file_path)
 
     if ext == '.heic':
         print('\n\n===found heic===\n\n')
         png_file = f'{slug}.png'
-        png_path = os.path.join(destination_dir, png_file)
-        convert_heic_to_png(file_path, png_path)
+        png_path = os.path.join(UPLOAD_FOLDER, png_file)
+        convert_img_to_png(file_path, png_path)
         os.remove(os.path.join('static',file_path))
         file_path = png_path
 
@@ -147,7 +177,7 @@ def image_helper(destination_dir, image_file, slug):
     return img_url
 
 
-def convert_heic_to_png(input_path, output_path):
+def convert_img_to_png(input_path, output_path):
     print('\n\n===converting image===\n\n')
     image = Image.open(os.path.join('static', input_path))
     image.save(os.path.join('static', output_path), format="PNG")
@@ -270,16 +300,19 @@ def update_user(form):
 
     image_file = form.photo.data
 
+    model_cls_str = 'users'
+    slug = 'user-logo'
+
     # Replace old photo if it exists
-    if image_file and image_file.filename != '':
+    # if image_file and image_file.filename != '':
         # delete the old image
         # I think I should replace this with a simple delete photo function
-        if user.image_url:
-            old_image_path = os.path.join('static', user.image_url.lstrip('/'))
-            if os.path.exists(old_image_path):
-                os.remove(old_image_path)
+        # if user.image_url:
+        #     old_image_path = os.path.join('static', user.image_url.lstrip('/'))
+        #     if os.path.exists(old_image_path):
+        #         os.remove(old_image_path)
     # Save new image and update image url
-    user.image_url = image_helper('images/pk_pics', image_file, 'user_logo')
+    user.image_url = image_helper(model_cls_str, image_file, slug)
 
     db_session.commit()
 

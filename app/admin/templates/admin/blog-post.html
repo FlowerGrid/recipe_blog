@@ -49,7 +49,7 @@
 
   {% if data.tags_list %}
     <script>
-      const existingTags = {{ data.tags_list | tojson }};
+      var existingTags = {{ data.tags_list | tojson }};
     </script>
   {% endif %}
 

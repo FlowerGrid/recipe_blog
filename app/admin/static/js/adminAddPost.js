@@ -2,7 +2,7 @@ const tagInput = document.querySelector('#tag-input');
 const tagDisplay = document.querySelector('.tags-display');
 const tagButton = document.querySelector('#tag-input-button');
 const formElement = document.querySelector('#add-post-form');
-const existingTags = window.existingTags || [];
+var existingTags = window.existingTags || [];
 
 
 const tagSet = new Set();
