@@ -46,6 +46,7 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
     obj_id = form.id.data
 
     if obj_id:
+        # Delete old photo up here
         model_obj = db_session.query(model_cls).filter_by(id=obj_id).first()
         model_obj.title = title
         model_obj.slug = slug
@@ -72,8 +73,6 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
 
         tags_handler(model_obj, tags_list, rel_attr_name)
 
-        # db_session.commit()
-
     else:
         model_obj = model_cls(
             title=title,
@@ -90,7 +89,6 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
             tags_handler(model_obj, tags_list, rel_attr_name)
 
         if image_file and image_file.filename != '':
-            # model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
             model_obj.image_url = image_helper2(model_cls_str, image_file, slug)
 
 
@@ -153,52 +151,6 @@ def image_helper2(model_cls_str, image_file, slug):
         return None
 
 
-def image_helper(model_cls, image_file, slug):
-    filename = secure_filename(image_file.filename)
-    ext = os.path.splitext(filename)[1].lower()
-    filename = f'{slug}{ext}'
-    file_path = os.path.join(UPLOAD_FOLDER, model_cls, filename)
-
-    # convert to png
-    image_file.save(file_path)
-
-    if ext == '.heic':
-        print('\n\n===found heic===\n\n')
-        png_file = f'{slug}.png'
-        png_path = os.path.join(UPLOAD_FOLDER, png_file)
-        convert_img_to_png(file_path, png_path)
-        os.remove(os.path.join('static',file_path))
-        file_path = png_path
-
-    img_url = f'/{file_path}'
-
-    resize_and_compress(os.path.join('static', file_path))
-
-    return img_url
-
-
-def convert_img_to_png(input_path, output_path):
-    print('\n\n===converting image===\n\n')
-    image = Image.open(os.path.join('static', input_path))
-    image.save(os.path.join('static', output_path), format="PNG")
-
-
-def resize_and_compress(image_path):
-    with Image.open(image_path) as img:
-        # Resize if needed
-        img.thumbnail((MAX_SIZE, MAX_SIZE))
-
-        # Determine save options based on format
-        save_kwargs = {}
-        if img.format == 'JPEG' or image_path.lower().endswith(('.jpg', '.jpeg')):
-            save_kwargs['quality'] = 85
-            save_kwargs['optimize'] = True
-        elif img.format == 'PNG' or image_path.lower().endswith('.png'):
-            save_kwargs['optimize'] = True
-
-        img.save(image_path, **save_kwargs)
-
-
 def get_joined_recipe_from_db(key, value):
     recipe = (
         db_session.query(Recipe)
@@ -214,9 +166,9 @@ def get_joined_recipe_from_db(key, value):
 def get_all_recipes_joined():
     all_recipes = (
         db_session.query(Recipe)
-        # .options(
-        #     joinedload(Recipe.category)
-        # )
+        .options(
+            joinedload(Recipe.tags_in_recipe)
+        )
         .all()
     )
     return all_recipes
@@ -299,23 +251,11 @@ def update_user(form):
     user.set_security_answer(form.answer.data)
 
     image_file = form.logo_img.data
-    print('===============')
-    print(image_file)
-    print('===============')
 
     model_cls_str = 'users'
     slug = 'user-logo'
 
-    # Replace old photo if it exists
-    # if image_file and image_file.filename != '':
-        # delete the old image
-        # I think I should replace this with a simple delete photo function
-        # if user.image_url:
-        #     old_image_path = os.path.join('static', user.image_url.lstrip('/'))
-        #     if os.path.exists(old_image_path):
-        #         os.remove(old_image_path)
-    # Save new image and update image url
-    user.image_url = image_helper(model_cls_str, image_file, slug)
+    user.image_url = image_helper2(model_cls_str, image_file, slug)
 
     db_session.commit()
 
