@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy Files
 COPY . .
 
-EXPOSE 8080
+# EXPOSE 8080
 
 # Last command. actually starts the process
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "run:create_app()"]
+CMD ["gunicorn", "-b", "0.0.0.0:${PORT}", "run:create_app()"]
 # CMD gunicorn -b 0.0.0.0:${PORT} "run:create_app()"

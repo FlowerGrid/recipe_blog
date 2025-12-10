@@ -4,6 +4,13 @@ body {
     padding: 0;
     margin: 0;
     color: #413324;
+    
+    font-family: "Spectral", Serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-weight: 800;
 }
 
 .bold-text {
@@ -19,6 +26,7 @@ body {
 
 .header,
 .footer {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
     padding: 1rem;
     /* background-color: #eeb230; */
     background-color: #48615b;
@@ -238,7 +246,6 @@ h2 {
 .page-content h3 {
     font-size: 22pt;
     margin-bottom: 12px;
-
 }
 
 .page-content h1 {
@@ -287,6 +294,11 @@ h2 {
     display: grid;
     grid-template-columns: 1fr;
     box-sizing: border-box;
+}
+
+.hero-section h3 {
+    margin-top: 10px;
+    font-size: 18pt;
 }
 
 .img-container {
