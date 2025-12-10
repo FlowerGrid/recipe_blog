@@ -19,5 +19,5 @@ COPY . .
 # EXPOSE 8080
 
 # Last command. actually starts the process
-CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "run:app"]
-# CMD gunicorn -b 0.0.0.0:${PORT} "run:create_app()"
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "run:app"]
+# CMD gunicorn -b 0.0.0.0:${PORT} run:app
