@@ -94,10 +94,7 @@ def update_user_info():
 def change_pw():
     form = UpdatePasswordForm()
     data = {'page_name': 'Reset Password'}
-    if form.validate_on_submit():
-        print()
-        print('password click')
-        print()        
+    if form.validate_on_submit():    
         check, message = db_helpers.change_pw(form)
         if check:
             flash(message)
@@ -158,9 +155,6 @@ def new_blog_post():
         'page_name': 'New Post'
     }
     if form.validate_on_submit():
-        print('form')
-        print(request.form)
-        print('form end')
         rel_attr_name = 'tags_in_blog_post'
         db_helpers.gather_form_data_unified(BlogPost, form, rel_attr_name)
 

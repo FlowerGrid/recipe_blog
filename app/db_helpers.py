@@ -2,6 +2,7 @@ import bleach
 from bs4 import BeautifulSoup
 from flask import request, session, flash, current_app
 import html, json
+import logging
 import os
 from PIL import Image
 import pillow_heif
@@ -37,8 +38,6 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
         pass
 
     image_file = form.photo.data
-
-    print(f'js Array: {form.tags.data}')
 
     tags_list = json.loads(form.tags.data)
 
@@ -151,7 +150,7 @@ def image_helper2(model_cls_str, image_file, slug):
         return os.path.join('uploads', filename)
         
     except Exception:
-        print('Bad Image Upload')
+        # Log this
         return None
 
 

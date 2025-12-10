@@ -3,8 +3,6 @@ from sqlalchemy import create_engine, Integer, String, Column, ForeignKey, DateT
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# engine = create_engine('sqlite:///recipe-db.sqlite3', echo=True)
-
 Base = declarative_base()
 
 # Association Tables

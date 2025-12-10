@@ -6,9 +6,7 @@ from app.db_helpers import get_joined_recipe_from_db, get_active_recipes, get_ac
 
 @main_bp.route('/')
 def index():
-    print('Main route hit')
     import os
-    print("Looking for template in:", os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates', 'main/index.html')))
     return render_template('main/index.html')
 
 
@@ -48,7 +46,6 @@ def blog_posts():
 def show_blog_post(slug):
     post = get_single_blog_post_by_slug(slug)
     if not post or not post.is_active:
-        print('====no post====')
         abort(404)
     return render_template('main/blog-post.html', post=post)
 

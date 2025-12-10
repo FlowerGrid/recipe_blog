@@ -19,7 +19,6 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 ckeditor = CKEditor()
 
 def create_app():
-    print(">>> LOADING APP FACTORY")
 
     app = Flask(
         __name__,
@@ -41,11 +40,9 @@ def create_app():
     # Database
     app.config['DATABASE_URL'] = DATABASE_URL
     app.config['SQLALCHEMY_ECHO'] = False
-    app.config['CREATE_TABLES'] = True   # Local only
+    app.config['CREATE_TABLES'] = False   # Set to True for local development
 
     init_db(app)
-
-    print("Registered blueprints:", app.blueprints)
 
     from .cli import init_cli
 
