@@ -1,7 +1,9 @@
 import bleach
 from bs4 import BeautifulSoup
 from flask import request, session, flash, current_app
+from google.cloud import storage
 import html, json
+import io
 import logging
 import os
 from PIL import Image
@@ -143,15 +145,41 @@ def image_helper2(model_cls_str, image_file, slug):
 
             img.thumbnail((MAX_SIZE, MAX_SIZE)) # MAX_SIZE = 1024
 
-            filename = os.path.join(model_cls_str, f'{slug}.png')
+        # For local development:
+        #     filename = os.path.join(model_cls_str, f'{slug}.png')
 
-            img.save(os.path.join(UPLOAD_FOLDER, filename), format='PNG', optimize=True)
+        #     img.save(os.path.join(UPLOAD_FOLDER, filename), format='PNG', optimize=True)
 
-        return os.path.join('uploads', filename)
+        # return os.path.join('uploads', filename)
         
+            # Upload to Google Cloud Storage and get the url to save into database
+            bucket_name = 'flower-grid-cooking-blog-uploads'
+            organized_slug = f'{model_cls_str}/{slug}'
+            img_public_url = upload_image_to_gcs(img, organized_slug, bucket_name)
+
+        return img_public_url
     except Exception:
         # Log this
         return None
+    
+
+def upload_image_to_gcs(image_file, organized_slug, bucket_name):
+    # Process image with PIL
+    with Image.open(image_file) as img:
+        img = img.convert("RGB")
+        img.thumbnail((MAX_SIZE, MAX_SIZE))
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG", optimize=True)
+        buffer.seek(0)
+
+    # Initialize GCS client
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(f"{organized_slug}.png")
+    blob.upload_from_file(buffer, content_type="image/png")
+    
+    # Return the public URL or path
+    return blob.public_url  # or blob.name if you want relative path
 
 
 def get_joined_recipe_from_db(key, value):

@@ -16,7 +16,7 @@ def init_cli(app):
             print('User creation cancelled.')
             return
         
-        add_user_to_db(*creds)
+        add_user_to_db(*creds, db_session, User)
 
 
 def prompt_user_creds():
@@ -45,9 +45,11 @@ def prompt_user_creds():
 def add_user_to_db(username, email, password, db_session, User):
     user = User(
         username=username.lower(),
-        email=email.lower()
+        email=email.lower(),
+        security_question='question',
         )
     user.set_password(password)
+    user.set_security_answer('answer')
 
     db_session.add(user)
     db_session.commit()

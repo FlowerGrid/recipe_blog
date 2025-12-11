@@ -12,11 +12,15 @@ DateTime==5.5
 Flask==3.1.1
 Flask-CKEditor==1.0.0
 Flask-WTF==1.2.2
-google-api-core==2.25.1
+google-api-core==2.28.1
 google-api-python-client==2.174.0
 google-auth==2.40.3
 google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.2
+google-cloud-core==2.5.0
+google-cloud-storage==3.7.0
+google-crc32c==1.7.1
+google-resumable-media==2.8.0
 googleapis-common-protos==1.70.0
 gspread==6.2.1
 gunicorn==23.0.0
@@ -32,6 +36,9 @@ pillow==11.3.0
 pillow_heif==1.1.0
 proto-plus==1.26.1
 protobuf==6.31.1
+psycopg==3.3.2
+psycopg-binary==3.3.2
+psycopg2-binary==2.9.11
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pycparser==2.22

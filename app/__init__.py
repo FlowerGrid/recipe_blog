@@ -3,7 +3,7 @@ App Package
 """
 from .blueprints.main import main_bp
 from .blueprints.admin import admin_bp
-from .db import init_db, DATABASE_URL
+from .db import init_db
 from dotenv import load_dotenv
 from flask import Flask, current_app, url_for, render_template
 from flask_ckeditor import CKEditor
@@ -38,7 +38,6 @@ def create_app():
     app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
     # Database
-    app.config['DATABASE_URL'] = DATABASE_URL
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['CREATE_TABLES'] = False   # Set to True for local development
 
