@@ -164,7 +164,7 @@ def image_helper2(model_cls_str, image_file, slug):
         return img_public_url
     except Exception as e:
         # Log this
-        logger.info(e)
+        logger.exception("Image Upload Error")
         return None
     
 
