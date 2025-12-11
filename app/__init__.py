@@ -4,6 +4,7 @@ App Package
 from .blueprints.main import main_bp
 from .blueprints.admin import admin_bp
 from .db import init_db
+from .db_helpers import get_user_info
 from dotenv import load_dotenv
 from flask import Flask, current_app, url_for, render_template
 from flask_ckeditor import CKEditor
@@ -53,11 +54,12 @@ def create_app():
 
     @app.context_processor
     def inject_logo_url():
-        user_logo_path = os.path.join(BASE_DIR, 'static', 'uploads', 'users', 'user-logo.png')
+        # user_logo_path = os.path.join(BASE_DIR, 'static', 'uploads', 'users', 'user-logo.png')
+        user_logo = get_user_info(2).logo_img
 
-        if os.path.exists(user_logo_path):
+        if user_logo:
             return {
-                'logo_url': url_for('static', filename='uploads/users/user-logo.png')
+                'logo_url': user_logo
             }
         else:
             return {

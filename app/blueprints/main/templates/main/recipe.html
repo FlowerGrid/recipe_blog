@@ -14,7 +14,7 @@
     </h1>
     {% if recipe.image_url %}
     <div class="img-container">
-      <img src="{{ url_for('static', filename=recipe.image_url) }}" class="img" alt="{{ recipe.title }} - Flower Grid Cooking">
+      <img src="{{ recipe.image_url }}" class="img" alt="{{ recipe.title }} - Flower Grid Cooking">
     </div>
     {% endif %}
     <div class="recipe-blurb recipe-item">

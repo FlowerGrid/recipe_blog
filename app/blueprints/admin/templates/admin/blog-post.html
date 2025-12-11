@@ -37,7 +37,7 @@
         {{ form.photo.label }} {{ form.photo() }}    
         {% if data.img %}
         <div class="img-preview-container">
-          <img src="{{ url_for('static', filename=data.img) }}" alt="Pizza">
+          <img src="{{ data.img }}" alt="Pizza">
         </div>
         {% endif %}
       </div>

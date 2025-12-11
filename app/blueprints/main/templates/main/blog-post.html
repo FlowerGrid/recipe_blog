@@ -11,7 +11,7 @@
     <h1>{{ post.title }}</h1>
     {% if post.image_url %}
     <div class="img-container">
-      <img src="{{ url_for('static', filename=post.image_url) }}" class="img" alt="{{ post.title }} - The Pizza King, DTX">
+      <img src="{{ post.image_url }}" class="img" alt="{{ post.title }} - The Pizza King, DTX">
     </div>
     {% endif %}
     {{ post.blurb | safe }}

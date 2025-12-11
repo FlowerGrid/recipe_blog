@@ -16,7 +16,7 @@
       <div class="object-card">
         <div class="object-pic">
           {% if object.image_url %}
-          <img src="{{ url_for('static', filename=object.image_url) }}" alt="{{ object.title }}">
+          <img src="{{ object.image_url }}" alt="{{ object.title }}">
           {% else %}
           <img src="{{ url_for('static', filename='images/pk_animated.png') }}" alt="{{ object.title }}">
           {% endif %}
