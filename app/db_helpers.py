@@ -296,7 +296,7 @@ def update_user(form):
     model_cls_str = 'users'
     slug = 'user-logo'
 
-    user.image_url = image_helper2(model_cls_str, image_file, slug)
+    user.logo_img = image_helper2(model_cls_str, image_file, slug)
 
     db_session.commit()
 
