@@ -182,6 +182,7 @@ def upload_image_to_gcs(image_file, organized_slug, bucket_name):
     bucket = client.bucket(bucket_name)
     blob = bucket.blob(f"{organized_slug}.png")
     blob.upload_from_file(buffer, content_type="image/png")
+    blob.make_public()
     
     # Return the public URL or path
     return blob.public_url  # or blob.name if you want relative path
