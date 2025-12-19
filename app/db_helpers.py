@@ -22,8 +22,7 @@ pillow_heif.register_heif_opener()
 
 MAX_SIZE = 1024
 
-###############################################################
-# Attempt to unify blog post and recipe form gathering logic
+
 def gather_form_data_unified(model_cls, form, rel_attr_name):
 
     title = form.title.data.strip()
@@ -67,14 +66,7 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
         model_cls_str = model_cls.__tablename__ # String of table's name
 
         if image_file and image_file.filename != '':
-            # delete the old image
-            # if model_obj.image_url:
-            #     old_image_path = os.path.join(UPLOAD_FOLDER, model_obj.image_url.lstrip('/'))
-            #     if os.path.exists(old_image_path):
-            #         os.remove(old_image_path)
-            # Save new image and update image url
-            # model_obj.image_url = image_helper(UPLOAD_FOLDER, image_file, slug)
-            model_obj.image_url = image_helper2(model_cls_str, image_file, slug)
+            model_obj.image_url = image_helper(model_cls_str, image_file, slug)
 
         tags_handler(model_obj, tags_list, rel_attr_name)
 
@@ -94,14 +86,11 @@ def gather_form_data_unified(model_cls, form, rel_attr_name):
             tags_handler(model_obj, tags_list, rel_attr_name)
 
         if image_file and image_file.filename != '':
-            model_obj.image_url = image_helper2(model_cls_str, image_file, slug)
+            model_obj.image_url = image_helper(model_cls_str, image_file, slug)
 
 
         db_session.add(model_obj)
     db_session.commit()
-
-# End of attempt
-###############################################################
 
 
 def normalize_tag_name(tag_name):
@@ -132,7 +121,7 @@ def tags_handler(model_obj, tags_list, relation):
     setattr(model_obj, relation, final_tags_list)
 
 
-def image_helper2(model_cls_str, image_file, slug):
+def image_helper(model_cls_str, image_file, slug):
     try:
         with Image.open(image_file) as img:
             img.verify()
@@ -140,28 +129,11 @@ def image_helper2(model_cls_str, image_file, slug):
             # Reset file pointer so Pillow can read the image again
             image_file.seek(0)
 
-            bucket_name = 'flower-grid-cooking-blog-uploads'
             organized_slug = f'{model_cls_str}/{slug}'
-            img_public_url = upload_image_to_gcs(image_file, organized_slug, bucket_name)
-
-
-        # For local development:
-                # with Image.open(image_file) as img:
-                # # convert to png
-                #     img = img.convert('RGB')
-
-                #     img.thumbnail((MAX_SIZE, MAX_SIZE)) # MAX_SIZE = 1024
-
-                #     filename = os.path.join(model_cls_str, f'{slug}.png')
-
-                #     img.save(os.path.join(UPLOAD_FOLDER, filename), format='PNG', optimize=True)
-
-                # return os.path.join('uploads', filename)
-        
-            # Upload to Google Cloud Storage and get the url to save into database
-
+            img_public_url = current_app.extensions['image_storage'].save(image_file, organized_slug)
 
         return img_public_url
+    
     except Exception as e:
         # Log this
         logger.exception("Image Upload Error")
@@ -301,7 +273,7 @@ def update_user(form):
     model_cls_str = 'users'
     slug = 'user-logo'
 
-    user.logo_img = image_helper2(model_cls_str, image_file, slug)
+    user.logo_img = image_helper(model_cls_str, image_file, slug)
 
     db_session.commit()
 

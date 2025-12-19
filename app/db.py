@@ -7,7 +7,7 @@ from .models import Base
 
 load_dotenv()
 
-DATABASE_URL = os.getenv('SUPABASE_POOLER')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 # Initialize database after flask has created the app

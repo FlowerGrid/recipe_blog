@@ -27,6 +27,8 @@ def create_app():
         static_url_path='/static'
         )
 
+    from .routes import dev_routes
+    dev_routes.register_dev_routes(app)
 
     ckeditor.init_app(app)
 
@@ -37,10 +39,23 @@ def create_app():
     app.config['CKEDITOR_PKG_TYPE'] = 'basic'
     app.config['CKEDITOR_ENABLE_CODESNIPPET'] = False
     app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
+    app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static', 'uploads')
+    app.config['ENV_NAME'] = os.getenv('ENV_NAME')
 
     # Database
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['CREATE_TABLES'] = False   # Set to True for local development
+
+    app.config['DEBUG'] = app.config['ENV_NAME'] == 'local'
+
+    if app.config['ENV_NAME'] == 'local':
+        
+        from .storage.local import LocalImageStorage
+        app.extensions['image_storage'] = LocalImageStorage(app)
+    else:
+        from .storage.gcs import GCSImageStorage
+        app.extensions['image_storage'] = GCSImageStorage(app)
+
 
     init_db(app)
 
