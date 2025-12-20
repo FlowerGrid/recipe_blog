@@ -10,7 +10,7 @@ MAX_SIZE = 1024
 
 class GCSImageStorage:
     def __init__(self, app):
-        self.bucket_name = app.config['GCS_BUCKET']
+        self.bucket_name = app.config['IMAGE_STORAGE_CONTAINER']
 
     def save(self, image_file, organized_slug):
         # Process image with PIL
