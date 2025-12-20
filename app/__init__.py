@@ -27,8 +27,6 @@ def create_app():
         static_url_path='/static'
         )
 
-
-
     ckeditor.init_app(app)
 
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -43,8 +41,6 @@ def create_app():
     # CK Editor Setup
     app.config['CKEDITOR_PKG_TYPE'] = 'basic'
     app.config['CKEDITOR_ENABLE_CODESNIPPET'] = False
- 
-    
 
     # Database
     app.config['SQLALCHEMY_ECHO'] = False
@@ -66,7 +62,6 @@ def create_app():
         app.config['IMAGE_STORAGE_BACKEND'] = 'gcs'
         app.config['IMAGE_STORAGE_CONTAINER'] = os.getenv('IMAGE_STORAGE_CONTAINER')
         app.extensions['image_storage'] = GCSImageStorage(app)
-
 
     init_db(app)
 
